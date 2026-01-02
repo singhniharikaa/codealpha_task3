@@ -1,0 +1,366 @@
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #e0e0e0;
+  --accent-color: #ff6b6b;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --text-color: #fff;
+  --slider-bg: rgba(255, 255, 255, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #0f2027; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+.main-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  z-index: 1;
+  width: 90%;
+  max-width: 1000px;
+}
+
+/* Moving Background Shapes */
+.background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  filter: blur(50px);
+  border-radius: 50%;
+  animation: move 10s infinite alternate;
+  opacity: 0.7;
+}
+
+.shape-1 {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(#1845ad, #23a2f6);
+}
+
+.shape-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(#ff512f, #dd2476);
+  animation-delay: -5s;
+}
+
+@keyframes move {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(50px, 50px) rotate(20deg);
+  }
+}
+
+.player-container {
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  padding: 30px;
+  width: 350px;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.header i {
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.header i:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.img-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: rotate 20s linear infinite;
+  animation-play-state: paused;
+}
+
+.player-container.play .img-container img {
+  animation-play-state: running;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.song-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-info h3 {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-bottom: 25px;
+}
+
+.time-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+  margin-bottom: 8px;
+}
+
+.progress-bar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: var(--slider-bg);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.progress {
+  background: var(--accent-color);
+  border-radius: 5px;
+  height: 100%;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+#seek-slider {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#seek-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: transparent; /* hidden thumb effectively, mostly relying on click */
+  cursor: pointer;
+}
+/* Just in case we want a visible thumb on hover */
+#seek-slider:hover::-webkit-slider-thumb {
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: var(--secondary-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.action-btn:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.action-btn-big {
+  color: var(--primary-color);
+  font-size: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn-big:hover {
+  background: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color);
+  transform: scale(1.1);
+}
+
+/* Volume */
+.volume-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+#volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--slider-bg);
+  outline: none;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+}
+
+/* Playlist Panel (Static Side Panel) */
+.playlist-panel {
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 20px;
+    width: 300px;
+    height: 400px; /* Fixed height or match player */
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.playlist-header h3 {
+  margin: 0;
+}
+
+#close-playlist {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#playlist-items {
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  text-align: left;
+}
+
+#playlist-items li {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#playlist-items li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#playlist-items li.active-song {
+  color: var(--accent-color);
+  font-weight: bold;
+  border-left: 3px solid var(--accent-color);
+}
+
+/* Custom Scrollbar */
+#playlist-items::-webkit-scrollbar {
+  width: 6px;
+}
+#playlist-items::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
